@@ -19,9 +19,20 @@ import Nav from "@/app/components/Nav/nav";
 import Footer from "@/app/components/Footer/footer";
 import ProgressBar from "@/app/components/ProgressBar/bar";
 
-import { useRef } from "react";
+import { useState, useRef } from "react";
 
 function CartItem() {
+  const [amount, setAmount] = useState(1);
+  const amountRef = useRef();
+
+  function increaseAmount() {
+    amountRef.current.value = parseInt(amountRef.current.value) + 1;
+  }
+
+  function decreaseAmount() {
+    if (amountRef.current.value > 1)
+      amountRef.current.value = amountRef.current.value - 1;
+  }
   function removeItem(e) {
     e.target.closest(`.${styles.item}`).remove();
   }
@@ -35,9 +46,17 @@ function CartItem() {
       <td className={styles.price}>100.00 EGP</td>
       <td>
         <div className={styles.amountContainer}>
-          <button>-</button>
-          <input type="number" value={1} />
-          <button>+</button>
+          <button onClick={decreaseAmount}>-</button>
+          <input
+            type="number"
+            value={amount}
+            ref={amountRef}
+            onChange={(e) => {
+              if (e.target.value === "") e.target.value = 1;
+              setAmount(e.target.value);
+            }}
+          />
+          <button onClick={increaseAmount}>+</button>
         </div>
       </td>
       <td className={styles.total}>100.00 EGP</td>

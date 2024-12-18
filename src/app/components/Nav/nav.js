@@ -10,12 +10,23 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
-
+import { useState, useRef } from "react";
 import Link from "next/link";
 
 library.add(fab, fas, far);
 
 function CartItem() {
+  const [amount, setAmount] = useState(1);
+  const amountRef = useRef();
+
+  function increaseAmount() {
+    amountRef.current.value = parseInt(amountRef.current.value) + 1;
+  }
+
+  function decreaseAmount() {
+    if (amountRef.current.value > 1)
+      amountRef.current.value = amountRef.current.value - 1;
+  }
   function removeCartItem(e) {
     e.target.closest(`.${styles.cartItemContainer}`).remove();
   }
@@ -28,7 +39,7 @@ function CartItem() {
       <div className={styles.itemInfo}>
         <div className={styles.itemInfoHead}>
           <p className={styles.title}>
-          ACTIV LAPTOP BACKPACK L50*W34 - RED & BLK
+            ACTIV LAPTOP BACKPACK L50*W34 - RED & BLK
           </p>
           <button onClick={removeCartItem}>
             <FontAwesomeIcon icon="fa-solid fa-xmark" />
@@ -36,7 +47,17 @@ function CartItem() {
         </div>
         <div className={styles.quantity}>
           <div className={styles.quantityButtons}>
-            <button>-</button>1<button>+</button>
+            <button onClick={decreaseAmount}>-</button>
+            <input
+              type="number"
+              value={amount}
+              ref={amountRef}
+              onChange={(e) => {
+                if (e.target.value === "") e.target.value = 1;
+                setAmount(e.target.value);
+              }}
+            />
+            <button onClick={increaseAmount}>+</button>
           </div>
           <p className={styles.price}>100.00 EGP</p>
         </div>

@@ -418,3 +418,22 @@
     background-color: var(--main);
     color: white;
 }
+
+
+.quantityButtons input {
+    width: 60%;
+    border: 0;
+    text-align: center;
+  }
+  
+  .quantityButtons input[type="number"]::-webkit-outer-spin-button,
+  .quantityButtons input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .quantityButtons input:focus {
+    border: 0;
+    outline: 0;
+  }
+  
